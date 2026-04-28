@@ -1,5 +1,5 @@
-# Dependency directory (never commit this)
+# Dependency directory 
 node_modules/
 
-# Environment variables (contains your RabbitMQ credentials/URLs)
+# Environment variables 
 .env

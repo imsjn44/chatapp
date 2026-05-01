@@ -53,6 +53,7 @@ export const verifyUser = TryCatch(async (req, res) => {
     if (!user) {
         const name = email.slice(0, 8);
         user = await User.create({ name, email });
+        return user;
     }
     const token = generateToken(user);
     res.json({
@@ -60,4 +61,31 @@ export const verifyUser = TryCatch(async (req, res) => {
         user,
         token,
     });
+});
+export const myProfile = TryCatch(async (req, res) => {
+    const user = req.user;
+    res.json(user);
+});
+export const updateName = TryCatch(async (req, res) => {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        res.status(404).json({
+            message: "Please login ",
+        });
+        return;
+    }
+    user.name = req.body.name;
+    await user.save();
+    const token = generateToken(user);
+    res.status(200).json({
+        message: "User updated successfully",
+    });
+});
+export const getAllUsers = TryCatch(async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+export const getAUser = TryCatch(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    res.json(user);
 });

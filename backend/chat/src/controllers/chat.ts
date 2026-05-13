@@ -106,7 +106,7 @@ export const sendMessage = TryCatch(async (req: Request, res) => {
     return;
   }
 
-  if (!text || !imageFile) {
+  if (!text && !imageFile) {
     res.status(400).json({
       message: "Required text or image file",
     });
@@ -193,7 +193,7 @@ export const getMessagesByChat = TryCatch(async (req: Request, res) => {
   }
   if (!chatId) {
     res.status(404).json({
-      messages: "ChatID not found",
+      message: "ChatID not found",
     });
     return;
   }
@@ -250,6 +250,9 @@ export const getMessagesByChat = TryCatch(async (req: Request, res) => {
       `${process.env.USER_SERVICE}/api/v1/user/${otherUserId}`,
     );
 
+    if (!process.env.USER_SERVICE) {
+      throw new Error("USER_SERVICE not defined in env");
+    }
     //socket work
     res.json({
       messages,

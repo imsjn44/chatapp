@@ -22,7 +22,7 @@ export const upload = multer({
         fileSize: 5 * 1024 * 1024,
     },
     fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith("/images")) {
+        if (file.mimetype.startsWith("image/")) {
             cb(null, true);
         }
         else {

@@ -87,15 +87,16 @@ const ChatMessage = ({
                   <div className="flex items-center gap-1 mt-1 px-1">
                     <span className="text-[10px] text-gray-500">
                       {e.createdAt
-                        ? new Date(e.createdAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
+                        ? `${new Date(e.createdAt).toLocaleDateString([], { month: "short", day: "numeric" })}, ${new Date(e.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
                         : ""}
                     </span>
                     {isSentByMe && e.seen && e.seenAt && (
                       <span className="text-[9px] text-gray-400 italic">
                         Seen{" "}
+                        {new Date(e.seenAt).toLocaleDateString([], {
+                          month: "short",
+                          day: "numeric",
+                        })}{" "}
                         {new Date(e.seenAt).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",

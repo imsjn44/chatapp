@@ -9,6 +9,7 @@ import axios from "axios";
 import ChatHeader from "../components/ChatHeader";
 import ChatMessage from "../components/ChatMessage";
 import MessageInput from "../components/MessageInput";
+import { SocketData } from "../context/SocketContext";
 
 export interface Message {
   _id: string;
@@ -46,7 +47,8 @@ const chatApp = () => {
     setChats,
   } = useAppData();
   const router = useRouter();
-
+  const { onlineUsers } = SocketData();
+  console.log(onlineUsers);
   // useEffect(() => {
   //   if (!isAuth && !loading) {
   //     router.push("/login");

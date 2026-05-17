@@ -4,6 +4,7 @@ import { AppProvider } from "./context/AppContext";
 import { Toaster } from "react-hot-toast";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { SocketProvider } from "./context/SocketContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,8 +26,10 @@ export default function RootLayout({
     >
       <body>
         <AppProvider>
-          {children}
-          <Toaster />
+          <SocketProvider>
+            {children}
+            <Toaster />
+          </SocketProvider>
         </AppProvider>
       </body>
     </html>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { User } from "../context/AppContext";
 import {
   CornerDownLeft,
@@ -24,6 +24,7 @@ interface ChatSideBarProps {
   setSelectedUser: (userId: string | null) => void;
   handleLogOut: () => void;
   createChat: (user: User) => void;
+  onlineUsers: string[];
 }
 const SideBar = ({
   sidebarOpen,
@@ -37,8 +38,11 @@ const SideBar = ({
   handleLogOut,
   loggedInUser,
   createChat,
+  onlineUsers,
 }: ChatSideBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  console.log(onlineUsers);
 
   return (
     <aside
@@ -106,12 +110,16 @@ const SideBar = ({
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <UserCircle />
-                        <div></div>
+                        {onlineUsers.includes(u._id) && (
+                          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-600 border-2  border-gray-500"></span>
+                        )}
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <span className="text-white font-medium">{u.name}</span>
-                        <div></div>
+                        <div className="text-xs text-gray-600">
+                          {onlineUsers.includes(u._id) ? "Online" : "Offline"}
+                        </div>
                       </div>
                     </div>
                   </button>
@@ -138,14 +146,16 @@ const SideBar = ({
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center">
-                        <UserCircle className={`w-7 h-7 text-white `} />
+                        <UserCircle className={`w-7 h-7 text-white relative`} />
                       </div>
+                      {onlineUsers.includes(chat.user._id) && (
+                        <span className="absolute top-1.5 -right-.3 w-3.5 h-3.5 rounded-full bg-green-600 border-2  border-gray-500"></span>
+                      )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1">
                           <span
                             className={`fon
-                              
-                              
+      
                               t-semibold ${isSelected ? "text-white " : "text-gray-500"}`}
                           >
                             {chat.user.name}
@@ -205,7 +215,7 @@ const SideBar = ({
         >
           <div className="p-1.5 rounded-lg text-gray-500 mb-3 flex justify-center gap-3 bg-gray-800 w-full hover:bg-gray-700">
             <UserCircle className="w-6 h-6 text-gray-400" />
-            Profile
+            {loggedInUser?.name}
           </div>
         </Link>
         <button

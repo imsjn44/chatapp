@@ -75,9 +75,9 @@ export const AppProvider: React.FunctionComponent<AppProviderProps> = ({
       });
       setUser(data);
       setIsAuth(true);
-      console.log("API Response:", data);
+      // console.log("API Response:", data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -97,10 +97,12 @@ export const AppProvider: React.FunctionComponent<AppProviderProps> = ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
-      console.log(data);
+      // console.log(data);
       setChats(data.chats);
     } catch (error) {
+      console.log(error);
     } finally {
     }
   }

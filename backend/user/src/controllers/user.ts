@@ -105,6 +105,8 @@ export const updateName = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   res.status(200).json({
     message: "User updated successfully",
+    token,
+    user,
   });
 });
 

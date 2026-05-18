@@ -79,6 +79,8 @@ export const updateName = TryCatch(async (req, res) => {
     const token = generateToken(user);
     res.status(200).json({
         message: "User updated successfully",
+        token,
+        user,
     });
 });
 export const getAllUsers = TryCatch(async (req, res) => {

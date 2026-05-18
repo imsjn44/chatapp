@@ -47,13 +47,13 @@ const chatApp = () => {
     setChats,
   } = useAppData();
   const router = useRouter();
-  const { onlineUsers } = SocketData();
-  console.log(onlineUsers);
-  // useEffect(() => {
-  //   if (!isAuth && !loading) {
-  //     router.push("/login");
-  //   }
-  // });
+  const { onlineUsers, socket } = SocketData();
+  // console.log(onlineUsers);
+  useEffect(() => {
+    if (!isAuth && !loading) {
+      router.push("/login");
+    }
+  });
 
   const handleLogOut = () => logOutUser();
 
@@ -101,8 +101,15 @@ const chatApp = () => {
     if (!message.trim() && !imageFile) return;
     if (!selectedUser) return;
 
-    //socket work
+    if (typingTimeOut) {
+      clearTimeout(typingTimeOut);
+      setTypingTimeOut(null);
+    }
 
+    socket?.emit("stopTyping", {
+      chatId: selectedUser,
+      userId: loggedInUser?._id,
+    });
     try {
       const token = Cookies.get("token");
 
@@ -145,11 +152,100 @@ const chatApp = () => {
       toast.error(error.response.data.message);
     }
   };
+
+  const handleTyping = (value: string) => {
+    setMessage(value);
+    if (!selectedUser || !socket) return;
+    if (value.trim()) {
+      socket.emit("typing", {
+        chatId: selectedUser,
+        userId: loggedInUser?._id,
+      });
+    }
+
+    if (typingTimeOut) {
+      clearTimeout(typingTimeOut);
+    }
+
+    const timeout = setTimeout(() => {
+      socket.emit("stopTyping", {
+        chatId: selectedUser,
+        userId: loggedInUser?._id,
+      });
+    }, 2000);
+    setTypingTimeOut(timeout);
+  };
+
+  socket?.on("messagesSeen", (data) => {
+    console.log("Message seen by:", data);
+
+    if (selectedUser == data.chatId) {
+      setMessages((prev: any) => {
+        if (!prev) return null;
+        return prev.map((msg: any) => {
+          if (
+            msg.sender === loggedInUser?._id &&
+            data.messageIds &&
+            data.messageIds.includes(msg._id)
+          ) {
+            return {
+              ...msg,
+              seen: true,
+              seenAt: new Date().toString(),
+            };
+          } else if (msg.sender === loggedInUser?._id && !data.messageId) {
+            return {
+              ...msg,
+              seen: true,
+              seenAt: new Date().toString(),
+            };
+          }
+          return msg;
+        });
+      });
+    }
+  });
+  useEffect(() => {
+    socket?.on("userTyping", (data) => {
+      console.log(`Received user typing`, data);
+      if (data.chatId === selectedUser && data.userId !== loggedInUser?._id) {
+        setIsTyping(true);
+      }
+    });
+
+    socket?.on("userStoppedTyping", (data) => {
+      console.log(`Received user stopping typing`, data);
+      if (data.chatId === selectedUser && data.userId !== loggedInUser?._id) {
+        setIsTyping(false);
+      }
+    });
+
+    return () => {
+      socket?.off("messagesSeen");
+      socket?.off("userTyping");
+      socket?.off("userStoppedTyping");
+    };
+  }, [socket, selectedUser, loggedInUser?._id]);
+
   useEffect(() => {
     if (selectedUser) {
       fetchChat();
+      setIsTyping(false);
+      socket?.emit("joinChat", selectedUser);
+      return () => {
+        socket?.emit("leaveChat", selectedUser);
+        setMessages(null);
+      };
     }
-  }, [selectedUser]);
+  }, [selectedUser, socket]);
+
+  useEffect(() => {
+    return () => {
+      if (typingTimeOut) {
+        clearTimeout(typingTimeOut);
+      }
+    };
+  }, [typingTimeOut]);
 
   return (
     <div className="min-h-screen flex bg-gray-900 text-white overflow-hidden">
@@ -165,12 +261,14 @@ const chatApp = () => {
         loggedInUser={loggedInUser}
         handleLogOut={handleLogOut}
         createChat={createChat}
+        onlineUsers={onlineUsers}
       />
       <div className="flex flex-1 flex-col justify-between p-4">
         <ChatHeader
           user={user}
           setSidebarOpen={setSidebarOpen}
           isTyping={isTyping}
+          onlineUsers={onlineUsers}
         />
         <ChatMessage
           selectedUser={selectedUser}
@@ -180,7 +278,7 @@ const chatApp = () => {
         <MessageInput
           selectedUser={selectedUser}
           message={message}
-          setMessage={setMessage}
+          setMessage={handleTyping}
           handleMessageSend={handleMessageSend}
         />
       </div>

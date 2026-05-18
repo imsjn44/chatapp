@@ -29,7 +29,7 @@ const ChatMessage = ({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [selectedUser, uniqueMessages]);
-
+  console.log(loggedInUser);
   return (
     <div className="flex-1 overflow-hidden">
       <div className="h-full max-h-[calc(100vh-215px)] overflow-y-auto p-4 space-y-4 custom-scroll mt-35">
@@ -43,7 +43,7 @@ const ChatMessage = ({
           <div className="flex flex-col space-y-4">
             {uniqueMessages.map((e) => {
               const isSentByMe = e.sender === loggedInUser?._id;
-
+              console.log(isSentByMe);
               return (
                 <div
                   key={e._id}
@@ -78,7 +78,9 @@ const ChatMessage = ({
                       <div className="flex justify-end mt-1">
                         <CheckCheck
                           size={16}
-                          className={e.seen ? "text-blue-200" : "text-gray-400"}
+                          className={
+                            e.seen ? "text-blue-200" : "text-blue-300/70"
+                          }
                         />
                       </div>
                     )}

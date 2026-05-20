@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
+
 const app = express();
 app.use(cors()); // Allows your Vercel frontend to talk to this link
 
@@ -8,7 +9,7 @@ app.use(cors()); // Allows your Vercel frontend to talk to this link
 app.use(
   "/user",
   createProxyMiddleware({
-    target: process.env.USER_SERVICE_URL,
+    target: process.env.USER_SERVICE,
     changeOrigin: true,
     pathRewrite: { "^/user": "" }, // Removes /user before sending to the microservice
   }),
@@ -18,7 +19,7 @@ app.use(
 app.use(
   "/mail",
   createProxyMiddleware({
-    target: process.env.MAIL_SERVICE_URL,
+    target: process.env.MAIL_SERVICE,
     changeOrigin: true,
     pathRewrite: { "^/mail": "" },
   }),
@@ -28,7 +29,7 @@ app.use(
 app.use(
   "/chat",
   createProxyMiddleware({
-    target: process.env.CHAT_SERVICE_URL,
+    target: process.env.CHAT_SERVICE,
     changeOrigin: true,
     ws: true, // Enables WebSocket upgrading for your chat app
     pathRewrite: { "^/chat": "" },

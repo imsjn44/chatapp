@@ -3,7 +3,7 @@ import axios from "axios";
 import { ArrowRight, Loader2, Mail } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAppData } from "../context/AppContext";
+import { useAppData, user_service } from "../context/AppContext";
 import Loading from "../components/Loading";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -19,7 +19,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/v1/login", {
+      const { data } = await axios.post(`${user_service}/api/v1/login`, {
         email,
       });
       toast.success(data?.message);

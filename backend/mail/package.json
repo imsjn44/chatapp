@@ -17,7 +17,8 @@
     "amqplib": "^1.0.3",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "nodemailer": "^8.0.7"
+    "nodemailer": "^8.0.7",
+    "resend": "^6.12.3"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.8",

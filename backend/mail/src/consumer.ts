@@ -1,7 +1,9 @@
 import amqplib from "amqplib";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 dotenv.config();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const startSendOTPConsumer = async () => {
   try {
@@ -14,34 +16,34 @@ export const startSendOTPConsumer = async () => {
     const channel = await connection.createChannel();
     const queueName = "send-otp";
     await channel.assertQueue(queueName, { durable: true });
-    console.log("Mail service started lisitening for an otp email");
+    console.log("Mail service started listening for an OTP email");
+
     channel.consume(queueName, async (msg) => {
       if (msg) {
         try {
           const { to, subject, body } = JSON.parse(msg.content.toString());
 
-          const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            auth: {
-              user: process.env.USER,
-              pass: process.env.PASSWORD,
-            },
-          });
-          await transporter.sendMail({
-            from: "Chat App",
-            to,
-            subject,
+          // Send via HTTP API instead of SMTP
+          const { data, error } = await resend.emails.send({
+            from: "onboarding@resend.dev", // Free tier requires this exact address
+            to: to,
+            subject: subject,
             text: body,
           });
+
+          if (error) {
+            console.error("Resend API Error:", error);
+            return;
+          }
+
           channel.ack(msg);
-          console.log(`OTP mail send to ${to}`);
+          console.log(`OTP mail sent successfully to ${to}. ID: ${data?.id}`);
         } catch (error) {
-          console.log("Failed to send otp");
+          console.error("Failed to process queue message:", error);
         }
       }
     });
   } catch (error) {
-    console.log("Failed to start rabbitMQ consumer");
+    console.error("Failed to start RabbitMQ consumer:", error);
   }
 };

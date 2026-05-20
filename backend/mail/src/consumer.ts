@@ -5,6 +5,10 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+if (!resend) {
+  console.log(`RESEND_API_API not defined`);
+}
+
 export const startSendOTPConsumer = async () => {
   try {
     const connection = await amqplib.connect({

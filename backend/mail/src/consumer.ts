@@ -17,6 +17,9 @@ export const startSendOTPConsumer = async () => {
       hostname: process.env.RABBITMQ_HOST,
       port: 5671,
     });
+    console.log("Host:", process.env.RABBITMQ_HOST);
+    console.log("Password:", process.env.RABBITMQ_PASSWORD);
+    console.log("USername:", process.env.RABBITMQ_USERNAME);
     const channel = await connection.createChannel();
     const queueName = "send-otp";
     await channel.assertQueue(queueName, { durable: true });

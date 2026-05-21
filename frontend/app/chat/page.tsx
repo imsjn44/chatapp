@@ -229,7 +229,7 @@ const chatApp = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      fetchChat();
+      fetchChats();
       setIsTyping(false);
       socket?.emit("joinChat", selectedUser);
       return () => {

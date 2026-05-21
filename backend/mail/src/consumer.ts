@@ -28,7 +28,7 @@ export const startSendOTPConsumer = async () => {
 
           // Send via HTTP API instead of SMTP
           const { data, error } = await resend.emails.send({
-            from: "sujantimalsina.info.np", // Free tier requires this exact address
+            from: "Sujan <otp@sujantimalsina.info.np>", // Free tier requires this exact address
             to: to,
             subject: subject,
             text: body,

@@ -4,18 +4,18 @@ import amqplib from "amqplib";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-if (!resend) {
-  console.log(`RESEND_API_KEY not defined`);
+if (!process.env.RESEND_API_KEY) {
+  console.log("RESEND_API_KEY not defined");
 }
 
 export const startSendOTPConsumer = async () => {
   try {
     const connection = await amqplib.connect({
-      protocol: "amqp",
+      protocol: "amqps",
       username: process.env.RABBITMQ_USERNAME,
       password: process.env.RABBITMQ_PASSWORD,
       hostname: process.env.RABBITMQ_HOST,
+      port: 5671,
     });
     const channel = await connection.createChannel();
     const queueName = "send-otp";

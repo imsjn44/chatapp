@@ -7,8 +7,6 @@ import {
   sendMessage,
 } from "../controllers/chat.js";
 import { upload } from "../middlewares/multer.js";
-app.use(express.json());
-app.use(cors(...));
 const router = express.Router();
 
 router.post("/chat/new", isAuth, createNewChat);

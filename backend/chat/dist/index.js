@@ -6,13 +6,13 @@ import chatRoutes from "./routes/chat.js";
 import cors from "cors";
 import { app, server } from "./config/socket.js";
 connectDB();
-app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "https://chatapp-frontend-b9ac.onrender.com",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization", "Content-Type"],
 }));
+app.use(express.json());
 app.use("/api/v1", chatRoutes);
 const port = process.env.PORT;
 server.listen(port, () => {

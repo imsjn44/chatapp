@@ -3,18 +3,17 @@ dotenv.config();
 import amqplib from "amqplib";
 import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
-if (!resend) {
-    console.log(`RESEND_API_KEY not defined`);
+if (!process.env.RESEND_API_KEY) {
+    console.log("RESEND_API_KEY not defined");
 }
 export const startSendOTPConsumer = async () => {
     try {
-        const connection = await amqplib.connect({
-            protocol: "amqp",
-            username: process.env.RABBITMQ_USERNAME,
-            password: process.env.RABBITMQ_PASSWORD,
-            hostname: process.env.RABBITMQ_HOST,
-        });
+        const connection = await amqplib.connect(process.env.RABBITMQ_URL);
+        // console.log("Host:", process.env.RABBITMQ_HOST);
+        // console.log("Password:", process.env.RABBITMQ_PASSWORD);
+        // console.log("USername:", process.env.RABBITMQ_USERNAME);
         const channel = await connection.createChannel();
+        console.log("✅Rabbit MQ connected");
         const queueName = "send-otp";
         await channel.assertQueue(queueName, { durable: true });
         console.log("Mail service started listening for an OTP email");

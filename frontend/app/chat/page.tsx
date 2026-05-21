@@ -49,6 +49,22 @@ const chatApp = () => {
   const router = useRouter();
   const { onlineUsers, socket } = SocketData();
   // console.log(onlineUsers);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleReceiveMessage = (data: any) => {
+      if (data.chatId === selectedUser) {
+        setMessages((prev) => [...(prev || []), data.message]);
+      }
+    };
+
+    socket.on("receiveMessage", handleReceiveMessage);
+
+    return () => {
+      socket.off("receiveMessage", handleReceiveMessage);
+    };
+  }, [socket, selectedUser]);
   useEffect(() => {
     if (!isAuth && !loading) {
       router.push("/login");
@@ -146,7 +162,10 @@ const chatApp = () => {
       });
 
       setMessage("");
-      const displayText = imageFile ? "image" : "message";
+      socket?.emit("newMessage", {
+        chatId: selectedUser,
+        message: data.message,
+      });
     } catch (error: any) {
       toast.error(error.response.data.message);
     }

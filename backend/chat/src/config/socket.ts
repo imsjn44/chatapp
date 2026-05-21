@@ -60,15 +60,18 @@ io.on("connection", (socket: Socket) => {
     console.log(`User with ${userId} left chat room ${chatId}`);
   });
 
+  socket.on("newMessage", (data) => {
+    io.to(data.chatId).emit("receiveMessage", data);
+  });
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
   });
 
-  // if (userId) {
-  //   delete userSocketMap[userId];
-  //   console.log(`Users ${userId} removed from online users`);
-  //   io.emit("getOnlineUser", Object.keys(userSocketMap));
-  // }
+  if (userId) {
+    delete userSocketMap[userId];
+    console.log(`Users ${userId} removed from online users`);
+    io.emit("getOnlineUser", Object.keys(userSocketMap));
+  }
 
   socket.on("connect_error", () => {
     console.log("Socket connection error", error);

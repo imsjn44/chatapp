@@ -12,7 +12,7 @@ if (!resend) {
 export const startSendOTPConsumer = async () => {
   try {
     const connection = await amqplib.connect({
-      protocol: "amqps",
+      protocol: "amqp",
       port: 443,
       username: process.env.RABBITMQ_USERNAME,
       password: process.env.RABBITMQ_PASSWORD,

@@ -13,7 +13,6 @@ export const startSendOTPConsumer = async () => {
   try {
     const connection = await amqplib.connect({
       protocol: "amqp",
-      port: 443,
       username: process.env.RABBITMQ_USERNAME,
       password: process.env.RABBITMQ_PASSWORD,
       hostname: process.env.RABBITMQ_HOST,

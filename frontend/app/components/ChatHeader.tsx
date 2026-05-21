@@ -1,5 +1,5 @@
 import { User } from "../context/AppContext";
-import { Divide, Menu, UserCircle } from "lucide-react";
+import { Menu, UserCircle } from "lucide-react";
 
 interface ChatHeaderProps {
   user: User | null;

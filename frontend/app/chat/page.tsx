@@ -90,7 +90,6 @@ const chatApp = () => {
       );
       setSelectedUser(data.chatId);
       setShowAllUser(false);
-      await fetchChats();
     } catch (error) {
       toast.error("Failed to start chat");
     }
@@ -229,7 +228,7 @@ const chatApp = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      fetchChats();
+      fetchChat();
       setIsTyping(false);
       socket?.emit("joinChat", selectedUser);
       return () => {

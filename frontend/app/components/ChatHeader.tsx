@@ -13,6 +13,7 @@ const ChatHeader = ({
   onlineUsers,
   isTyping,
 }: ChatHeaderProps) => {
+  console.log(user);
   const isOnlineUser = user && onlineUsers?.includes(user._id);
   console.log(isOnlineUser);
   console.log(isTyping);

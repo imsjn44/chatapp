@@ -42,7 +42,7 @@ const SideBar = ({
 }: ChatSideBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log(onlineUsers);
+  // console.log(onlineUsers);
 
   return (
     <aside

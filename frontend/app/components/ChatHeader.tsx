@@ -15,8 +15,8 @@ const ChatHeader = ({
 }: ChatHeaderProps) => {
   console.log(user);
   const isOnlineUser = user && onlineUsers?.includes(user._id);
-  console.log(isOnlineUser);
-  console.log(isTyping);
+  // console.log(isOnlineUser);
+  // console.log(isTyping);
   return (
     <>
       <div className=" sm:hidden fixed top-4 right-4 z-30">

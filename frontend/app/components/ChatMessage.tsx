@@ -43,7 +43,7 @@ const ChatMessage = ({
           <div className="flex flex-col space-y-4">
             {uniqueMessages.map((e) => {
               const isSentByMe = e.sender === loggedInUser?._id;
-              console.log(isSentByMe);
+              // console.log(isSentByMe);
               return (
                 <div
                   key={e._id}

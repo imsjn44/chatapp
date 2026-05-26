@@ -383,7 +383,7 @@ docker-compose down
 | Frontend | 3000 |
 | API Gateway | 5000 |
 | User  | 5000 |
-| Chat S | 5002 |
+| Chat | 5002 |
 | Mail Service | 5001 |
 | MongoDB | 27017 |
 | Redis | 6379 |

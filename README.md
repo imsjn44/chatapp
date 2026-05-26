@@ -337,18 +337,21 @@ npm install
 ```bash
 cd backend/user-service
 npm install
+npm run dev
 ```
 
 ### Chat
 ```bash
 cd backend/chat-service
 npm install
+npm run dev
 ```
 
 ### Mail 
 ```bash
 cd backend/mail-service
 npm install
+npm run dev
 ```
 
 ---
@@ -393,8 +396,11 @@ docker-compose down
 ## User `.env`
 
 ```env
-MONGO_URI=your_mongodb_uri
+
+MONGO_URI=mongodb://
+
 PORT=
+
 REDIS_URL=redis://redis:6379
 
 RABBITMQ_USERNAME=
@@ -404,6 +410,7 @@ RABBITMQ_HOST=
 OR
 
 RABBITMQ_URL==amqp://rabbitmq
+
 JWT_SECRET=
 
 ```
@@ -418,17 +425,17 @@ RABBITMQ_USERNAME=
 RABBITMQ_PASSWORD=
 
 RABBITMQ_HOST=
-
-#Google account app password
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Google Account app user & password
 USER=
 
 PASSWORD=
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PORT=5001
 
-RESEND_API_KEY=re_a97L4Cjj_...
+RESEND_API_KEY=re_
 
-RABBITMQ_URL=amqps://kadepegx......
+RABBITMQ_URL=amqps://
 ```
 
 ---
@@ -454,6 +461,20 @@ CLOUD_API_SECRET=
 PORT=5002
 
 FRONTEND_URL=
+
+```
+
+---
+## Proxy `.env`
+
+```env
+
+
+USER_SERVICE=
+
+CHAT_SERVICE=
+
+MAIL_SERVICE=
 
 ```
 

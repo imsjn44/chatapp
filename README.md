@@ -262,11 +262,13 @@ chat-app/
 # 📸 Screenshots
 
 ## Login Page
-![Login](./screenshots/login.png)<img width="592" height="545" alt="Screenshot 2026-05-26 174847" src="https://github.com/user-attachments/assets/658a96ed-534d-471d-a710-a70bebb0c6e1" />
+![Login<img width="717" height="752" alt="Screenshot 2026-05-26 175014" src="https://github.com/user-attachments/assets/544c0993-adf3-421c-8704-a47d6d67b8eb" />
+](./screenshots/login.png)<img width="592" height="545" alt="Screenshot 2026-05-26 174847" src="https://github.com/user-attachments/assets/658a96ed-534d-471d-a710-a70bebb0c6e1" />
 
 
 ## OTP Verification
-![OTP](./screenshots/otp.png)
+![OTP](./screenshots/otp.png)![Uploading Screenshot 2026-05-26 175014.png…]()
+
 
 ## User Dashboard
 ![Dashboard](./screenshots/dashboard.png)

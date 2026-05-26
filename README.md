@@ -288,7 +288,7 @@ chat-app/
 ## 💬 Real-Time Chat
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/aab26d63-1408-4745-88c8-8a47b6b34110" width="800"/>
+  <img src="https://github.com/user-attachments/assets/70626dc1-dfea-4a85-ac62-fcb4167b7b6b" width="800"/>
 </p>
 
 ---
@@ -304,8 +304,9 @@ chat-app/
 ## 🖼️ Image Sharing
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/70626dc1-dfea-4a85-ac62-fcb4167b7b6b" width="800"/>
+  <img src="https://github.com/user-attachments/assets/aab26d63-1408-4745-88c8-8a47b6b34110" width="800"/>
 </p>
+
 
 ---
 

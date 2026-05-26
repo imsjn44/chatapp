@@ -99,7 +99,118 @@ The application uses **Redis** for caching and real-time performance optimizatio
 
 # 🐳 Docker Containerization
 
-The entire application is fully containerized using **Docker** and orchestrated using **Docker Compose**.
+The entire application is fully containerized using **Docker**.
+# 🐳 Docker & RabbitMQ Setup
+
+## Install Docker on Ubuntu
+
+### Update Package List
+
+```bash
+sudo apt-get update -y
+```
+
+---
+
+### Install Docker
+
+```bash
+sudo apt-get install docker.io -y
+```
+
+---
+
+### Enable and Start Docker Service
+
+```bash
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
+---
+
+### Give Current User Permission to Run Docker Commands
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+> Logout and login again after running the above command.
+
+---
+
+# 🐇 RabbitMQ Setup Using Docker
+
+## Pull and Run RabbitMQ Container
+
+```bash
+sudo docker run -d \
+  --hostname rabbitmq-host \
+  --name rabbitmq-container \
+  -e RABBITMQ_DEFAULT_USER=admin \
+  -e RABBITMQ_DEFAULT_PASS=admin123 \
+  -p 5672:5672 \
+  -p 15672:15672 \
+  rabbitmq:3-management
+```
+
+---
+
+# 🌐 RabbitMQ Management Dashboard
+
+Access RabbitMQ Dashboard:
+
+```bash
+http://localhost:15672
+```
+
+## Default Login Credentials
+
+```bash
+Username: admin
+Password: admin123
+```
+
+---
+
+# 📦 RabbitMQ Ports
+
+| Port | Purpose |
+|---|---|
+| 5672 | RabbitMQ Messaging Port |
+| 15672 | RabbitMQ Management Dashboard |
+
+---
+
+# ✅ Verify Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+# 🛑 Stop RabbitMQ Container
+
+```bash
+docker stop rabbitmq-container
+```
+
+---
+
+# ▶️ Start RabbitMQ Container Again
+
+```bash
+docker start rabbitmq-container
+```
+
+---
+
+# ❌ Remove RabbitMQ Container
+
+```bash
+docker rm -f rabbitmq-container
+```
 
 # 🛠️ Tech Stack
 
@@ -151,7 +262,8 @@ chat-app/
 # 📸 Screenshots
 
 ## Login Page
-![Login](./screenshots/login.png)
+![Login](./screenshots/login.png)<img width="592" height="545" alt="Screenshot 2026-05-26 174847" src="https://github.com/user-attachments/assets/658a96ed-534d-471d-a710-a70bebb0c6e1" />
+
 
 ## OTP Verification
 ![OTP](./screenshots/otp.png)
@@ -219,84 +331,76 @@ docker-compose down
 
 # 🌍 Environment Variables
 
-## User Service `.env`
+## User `.env`
 
 ```env
-MONGO_URI=
+MONGO_URI=your_mongodb_uri
 PORT=
-REDIS_URL=
+REDIS_URL=redis://redis:6379
+
 RABBITMQ_USERNAME=
 RABBITMQ_PASSWORD=
 RABBITMQ_HOST=
-RABBITMQ_URL=
+
+OR
+
+RABBITMQ_URL==amqp://rabbitmq
 JWT_SECRET=
 
 ```
 
 ---
 
-## Chat Service `.env`
+## Mail  `.env`
 
 ```env
+RABBITMQ_USERNAME=
+
+RABBITMQ_PASSWORD=
+
+RABBITMQ_HOST=
+
+#Google account app password
+USER=
+
+PASSWORD=
+
+PORT=5001
+
+RESEND_API_KEY=re_a97L4Cjj_...
+
+RABBITMQ_URL=amqps://kadepegx......
+```
+
+---
+
+## Chat `.env`
+
+```env
+
+MONGO_URI=mongodb://
+
+JWT_SECRET=
+
+USER_SERVICE=
+
+CHAT_SERVICE=
+
+CLOUD_NAME=
+
+CLOUD_API_KEY=
+
+CLOUD_API_SECRET=
+
 PORT=5002
 
-MONGO_URI=your_mongodb_uri
+FRONTEND_URL=
 
-RABBITMQ_URL=amqp://rabbitmq
-
-REDIS_URL=redis://redis:6379
 ```
 
 ---
 
-## Mail Service `.env`
 
-```env
-PORT=5003
-
-RABBITMQ_URL=amqp://rabbitmq
-
-EMAIL_USER=your_email
-
-EMAIL_PASS=your_email_password
-```
-
----
-
-# 🐳 Example Docker Compose
-
-```yaml
-version: '3.9'
-
-services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-
-  user-service:
-    build: ./backend/user-service
-    ports:
-      - "5001:5001"
-
-  chat-service:
-    build: ./backend/chat-service
-    ports:
-      - "5002:5002"
-
-  mail-service:
-    build: ./backend/mail-service
-    ports:
-      - "5003:5003"
-
-  redis:
-    image: redis
-
-  rabbitmq:
-    image: rabbitmq:3-management
-```
-
----
 
 # 🔄 Real-Time Features
 

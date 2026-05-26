@@ -84,13 +84,6 @@ The application uses **RabbitMQ** as a message broker for asynchronous communica
 - Decoupled service communication
 - Reliable background processing
 
-### Example Events
-- `SEND_OTP`
-- `USER_REGISTERED`
-- `MESSAGE_SENT`
-
----
-
 # 🔴 Redis Integration
 
 The application uses **Redis** for caching and real-time performance optimization.
@@ -146,15 +139,10 @@ chat-app/
 ├── frontend/                        # Next.js Frontend
 │
 ├── backend/
-│   ├── gateway-service/            # API Gateway
-│   ├── user-service/               # Authentication Service
-│   ├── chat-service/               # Real-Time Chat Service
-│   ├── mail-service/               # OTP & Email Service
-│
-├── docker-compose.yml              # Docker Compose Config
-│
-├── screenshots/                    # README Images
-│
+│   ├── proxy/            # API Gateway
+│   ├── user/               # Authentication Service
+│   ├── chat/               # Real-Time Chat Service
+│   ├── mail/               # OTP & Email Service
 └── README.md
 ```
 
@@ -219,9 +207,9 @@ docker-compose down
 |---|---|
 | Frontend | 3000 |
 | API Gateway | 5000 |
-| User Service | 5001 |
-| Chat Service | 5002 |
-| Mail Service | 5003 |
+| User  | 5000 |
+| Chat S | 5002 |
+| Mail Service | 5001 |
 | MongoDB | 27017 |
 | Redis | 6379 |
 | RabbitMQ | 5672 |
@@ -234,19 +222,15 @@ docker-compose down
 ## User Service `.env`
 
 ```env
-PORT=5001
+MONGO_URI=
+PORT=
+REDIS_URL=
+RABBITMQ_USERNAME=
+RABBITMQ_PASSWORD=
+RABBITMQ_HOST=
+RABBITMQ_URL=
+JWT_SECRET=
 
-MONGO_URI=your_mongodb_uri
-
-JWT_SECRET=your_secret_key
-
-RABBITMQ_URL=amqp://rabbitmq
-
-REDIS_URL=redis://redis:6379
-
-EMAIL_USER=your_email
-
-EMAIL_PASS=your_email_password
 ```
 
 ---

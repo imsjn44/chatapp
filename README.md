@@ -262,28 +262,34 @@ chat-app/
 # 📸 Screenshots
 
 ## Login Page
-![Login<img width="717" height="752" alt="Screenshot 2026-05-26 175014" src="https://github.com/user-attachments/assets/544c0993-adf3-421c-8704-a47d6d67b8eb" />
-](./screenshots/login.png)<img width="592" height="545" alt="Screenshot 2026-05-26 174847" src="https://github.com/user-attachments/assets/658a96ed-534d-471d-a710-a70bebb0c6e1" />
+![Login](<img width="592" height="545" alt="Screenshot 2026-05-26 174847" src="https://github.com/user-attachments/assets/25f8af6b-b089-4c4a-aa41-d1b3e6298a29" />
+)
 
 
 ## OTP Verification
-![OTP](./screenshots/otp.png)![Uploading Screenshot 2026-05-26 175014.png…]()
+![OTP](<img width="717" height="752" alt="Screenshot 2026-05-26 175014" src="https://github.com/user-attachments/assets/3bc9a4fe-8ecc-4393-9dfa-31e50905998c" />
+)
+
 
 
 ## User Dashboard
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](<img width="382" height="638" alt="Screenshot 2026-05-26 175250" src="https://github.com/user-attachments/assets/1adfc4a0-6011-46d9-957c-7b1681aa1e98" />)
 
 ## Real-Time Chat
-![Chat](./screenshots/chat.png)
+![Chat](<img width="1383" height="832" alt="Screenshot 2026-05-26 175349" src="https://github.com/user-attachments/assets/aab26d63-1408-4745-88c8-8a47b6b34110" />
+
+)
 
 ## Typing Indicator
-![Typing](./screenshots/typing.png)
+![Typing](<img width="1123" height="161" alt="Screenshot 2026-05-26 175722" src="https://github.com/user-attachments/assets/d6332802-7067-4f9c-92eb-e282eb2bb27f" />
+)
 
 ## Image Sharing
-![Images](./screenshots/image-sharing.png)
+![Images](<img width="1361" height="236" alt="Screenshot 2026-05-26 175331" src="https://github.com/user-attachments/assets/70626dc1-dfea-4a85-ac62-fcb4167b7b6b" />)
 
 ## Profile Update
-![Profile](./screenshots/profile.png)
+![Profile](<img width="796" height="450" alt="Screenshot 2026-05-26 175836" src="https://github.com/user-attachments/assets/42b27c5d-4cc7-49ad-af18-6478a7d47b0a" />
+)
 
 ---
 
@@ -295,6 +301,34 @@ chat-app/
 git clone https://github.com/your-username/chat-app.git
 ```
 
+
+## 2️⃣ Install Dependencies (All Services)
+
+### Frontend
+```bash
+cd frontend
+npm install
+```
+
+### User 
+```bash
+cd backend/user-service
+npm install
+```
+
+### Chat
+```bash
+cd backend/chat-service
+npm install
+```
+
+### Mail 
+```bash
+cd backend/mail-service
+npm install
+```
+
+---
 ---
 
 # 🐳 Run Using Docker

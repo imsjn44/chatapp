@@ -1,11 +1,13 @@
 services:
+
   user:
     build:
       context: ./backend/user
+      dockerfile: Dockerfile
     container_name: user-service
     environment:
       PORT: 5000
-      MONGO_URI: ${MONGO_URI}
+      MONGO_URL: ${MONGO_URI}
       JWT_SECRET: ${JWT_SECRET}
       REDIS_URL: ${REDIS_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
@@ -16,6 +18,7 @@ services:
   chat:
     build:
       context: ./backend/chat
+      dockerfile: Dockerfile
     container_name: chat-service
     environment:
       PORT: 5002
@@ -32,6 +35,7 @@ services:
   mail:
     build:
       context: ./backend/mail
+      dockerfile: Dockerfile
     container_name: mail-service
     environment:
       PORT: 5001
@@ -44,6 +48,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_USER_SERVICE: ${NEXT_PUBLIC_USER_SERVICE}
         NEXT_PUBLIC_CHAT_SERVICE: ${NEXT_PUBLIC_CHAT_SERVICE}
@@ -53,8 +58,8 @@ services:
       NEXT_PUBLIC_CHAT_SERVICE: ${NEXT_PUBLIC_CHAT_SERVICE}
     ports:
       - "3000:3000"
+    restart: unless-stopped
     depends_on:
-      - user
       - chat
       - mail
-    restart: unless-stopped
+      - user

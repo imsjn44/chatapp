@@ -1,23 +1,30 @@
 services:
-
-  frontend:
+  user:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend
+      context: ./backend/user
+    container_name: user-service
+    environment:
+      PORT: 5000
+      MONGO_URI: ${MONGO_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: ${REDIS_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
     ports:
-      - "3000:3000"
+      - "5000:5000"
     restart: unless-stopped
-    depends_on:
-      - chat
-      - mail
-      - user
 
   chat:
     build:
       context: ./backend/chat
-      dockerfile: Dockerfile
     container_name: chat-service
+    environment:
+      PORT: 5002
+      MONGO_URI: ${MONGO_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      CLOUD_NAME: ${CLOUD_NAME}
+      CLOUD_API_KEY: ${CLOUD_API_KEY}
+      CLOUD_API_SECRET: ${CLOUD_API_SECRET}
+      FRONTEND_URL: ${FRONTEND_URL}
     ports:
       - "5002:5002"
     restart: unless-stopped
@@ -25,17 +32,29 @@ services:
   mail:
     build:
       context: ./backend/mail
-      dockerfile: Dockerfile
     container_name: mail-service
+    environment:
+      PORT: 5001
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      RESEND_API_KEY: ${RESEND_API_KEY}
     ports:
       - "5001:5001"
     restart: unless-stopped
 
-  user:
+  frontend:
     build:
-      context: ./backend/user
-      dockerfile: Dockerfile
-    container_name: user-service
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_USER_SERVICE: ${NEXT_PUBLIC_USER_SERVICE}
+        NEXT_PUBLIC_CHAT_SERVICE: ${NEXT_PUBLIC_CHAT_SERVICE}
+    container_name: frontend
+    environment:
+      NEXT_PUBLIC_USER_SERVICE: ${NEXT_PUBLIC_USER_SERVICE}
+      NEXT_PUBLIC_CHAT_SERVICE: ${NEXT_PUBLIC_CHAT_SERVICE}
     ports:
-      - "5000:5000"
+      - "3000:3000"
+    depends_on:
+      - user
+      - chat
+      - mail
     restart: unless-stopped

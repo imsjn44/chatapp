@@ -1,0 +1,41 @@
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - chat
+      - mail
+      - user
+
+  chat:
+    build:
+      context: ./backend/chat
+      dockerfile: Dockerfile
+    container_name: chat-service
+    ports:
+      - "5002:5002"
+    restart: unless-stopped
+
+  mail:
+    build:
+      context: ./backend/mail
+      dockerfile: Dockerfile
+    container_name: mail-service
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+
+  user:
+    build:
+      context: ./backend/user
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "5000:5000"
+    restart: unless-stopped

@@ -4,6 +4,10 @@ dotenv.config();
 import { startSendOTPConsumer } from "./consumer.js";
 startSendOTPConsumer();
 const app = express();
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server running on port ${port} `);

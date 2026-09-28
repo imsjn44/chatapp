@@ -16,6 +16,10 @@ app.use(
   }),
 );
 app.use(express.json());
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use("/api/v1", chatRoutes);
 
 const port = process.env.PORT;

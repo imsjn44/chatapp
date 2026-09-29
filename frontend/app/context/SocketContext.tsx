@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { chat_service, useAppData } from "./AppContext";
+import { useAppData } from "./AppContext";
 
 interface SocketContextType {
   socket: Socket | null;
@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }: ProviderProps) => {
   useEffect(() => {
     if (!user?._id) return;
 
-    const newSocket = io(chat_service, {
+    const newSocket = io(process.env.NEXT_PUBLIC_CHAT_SERVICE, {
       query: {
         userId: user._id,
       },

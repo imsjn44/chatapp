@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { chat_service, useAppData, User } from "../context/AppContext";
+import { useAppData, User } from "../context/AppContext";
 import { useRouter } from "next/navigation";
 import SideBar from "../components/SideBar";
 import Cookies from "js-cookie";
@@ -77,7 +77,7 @@ const chatApp = () => {
     try {
       const token = Cookies.get("token");
       const { data } = await axios.get(
-        `${chat_service}/api/v1/message/${selectedUser}`,
+        `${process.env.NEXT_PUBLIC_CHAT_SERVICE}/api/v1/message/${selectedUser}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +93,7 @@ const chatApp = () => {
     try {
       const token = Cookies.get("token");
       const { data } = await axios.post(
-        `${chat_service}/api/v1/chat/new`,
+        `${process.env.NEXT_PUBLIC_CHAT_SERVICE}/api/v1/chat/new`,
         {
           userId: loggedInUser?._id,
           otherUserId: u._id,
@@ -140,7 +140,7 @@ const chatApp = () => {
       }
 
       const { data } = await axios.post(
-        `${chat_service}/api/v1/message`,
+        `${process.env.NEXT_PUBLIC_CHAT_SERVICE}/api/v1/message`,
         formData,
         {
           headers: {

@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { ArrowRight, CircleChevronLeft, Loader2, Lock } from "lucide-react";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import React, { useRef, useState, useEffect } from "react";
-import { useAppData, user_service } from "../context/AppContext";
+import { useAppData } from "../context/AppContext";
 import Loading from "./Loading";
 import toast from "react-hot-toast";
 
@@ -82,10 +82,13 @@ const VerifyOtp = () => {
     setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post(`${user_service}/api/v1/verify`, {
-        email,
-        otp: otpString,
-      });
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_USER_SERVICE}/api/v1/verify`,
+        {
+          email,
+          otp: otpString,
+        },
+      );
       toast.success(data.message);
       Cookies.set("token", data.token, {
         expires: 15,
@@ -109,9 +112,12 @@ const VerifyOtp = () => {
     setResendLoading(true);
     setError("");
     try {
-      const { data } = await axios.post(`${user_service}/api/v1/login`, {
-        email,
-      });
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_USER_SERVICE}/api/v1/login`,
+        {
+          email,
+        },
+      );
 
       toast(data.message);
       setTimer(60);

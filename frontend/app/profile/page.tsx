@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAppData, user_service } from "../context/AppContext";
+import { useAppData } from "../context/AppContext";
 import Cookies from "js-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -30,7 +30,7 @@ const Profile = () => {
     const token = Cookies.get("token");
     try {
       const { data } = await axios.post(
-        `${user_service}/api/v1/update/user`,
+        `${process.env.NEXT_PUBLIC_USER_SERVICE}/api/v1/update/user`,
         { name },
         {
           headers: {

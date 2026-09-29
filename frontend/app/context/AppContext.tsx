@@ -12,8 +12,8 @@ import toast from "react-hot-toast";
 // export const user_service = "http://44.213.122.137:5000";
 // export const chat_service = "http://44.213.122.137:5002";
 
-export const user_service = "http://localhost:5000";
-export const chat_service = "http://localhost:5002";
+// export const user_service = "http://localhost:5000";
+// export const chat_service = "http://localhost:5002";
 export interface User {
   _id: string;
   name: string;
@@ -74,11 +74,14 @@ export const AppProvider: React.FunctionComponent<AppProviderProps> = ({
         setIsAuth(false);
         return;
       }
-      const { data } = await axios.get(`${user_service}/api/v1/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_USER_SERVICE}/api/v1/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       setUser(data);
       setIsAuth(true);
       // console.log("API Response:", data);
@@ -99,12 +102,15 @@ export const AppProvider: React.FunctionComponent<AppProviderProps> = ({
   async function fetchChats() {
     const token = Cookies.get("token");
     try {
-      const { data } = await axios.get(`${chat_service}/api/v1/chat/all`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_CHAT_SERVICE}/api/v1/chat/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
       // console.log(data);
       setChats(data.chats);
     } catch (error) {
@@ -116,11 +122,14 @@ export const AppProvider: React.FunctionComponent<AppProviderProps> = ({
   async function fetchUsers() {
     const token = Cookies.get("token");
     try {
-      const { data } = await axios.get(`${user_service}/api/v1/user/all`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_USER_SERVICE}/api/v1/user/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       setUsers(data);
     } catch (error) {}
   }

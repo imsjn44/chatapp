@@ -9,7 +9,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: "https://chatapp-frontend-b9ac.onrender.com",
+    origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization", "Content-Type"],

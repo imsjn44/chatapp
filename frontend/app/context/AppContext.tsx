@@ -8,9 +8,12 @@ import toast from "react-hot-toast";
 // export const user_service = "https://chatapp-user-service-hfm5.onrender.com";
 // export const chat_service = "https://chatapp-chat-service-2ljb.onrender.com";
 
-export const user_service = "http://44.213.122.137:5000";
-export const chat_service = "http://44.213.122.137:5002";
+// for ec2 deploy
+// export const user_service = "http://44.213.122.137:5000";
+// export const chat_service = "http://44.213.122.137:5002";
 
+export const user_service = "http://localhost:5000";
+export const chat_service = "http://localhost:5002";
 export interface User {
   _id: string;
   name: string;

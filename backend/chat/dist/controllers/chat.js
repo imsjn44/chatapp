@@ -120,12 +120,22 @@ export const sendMessage = TryCatch(async (req, res) => {
     }
     //socket setup
     //socket work
+    // Defensively retrieve socket and safely check room presence
     const receiverSocketId = getReceiverSocketId(otherUserId.toString());
     let isReceiverInChatRoom = false;
-    if (receiverSocketId) {
-        const receiverSocket = io.sockets.sockets.get(receiverSocketId);
-        if (receiverSocket && receiverSocket.rooms.has(chatId.toString())) {
-            isReceiverInChatRoom = true;
+    if (receiverSocketId && io?.sockets?.sockets) {
+        try {
+            const receiverSocket = io.sockets.sockets.get(receiverSocketId);
+            const targetRoom = chatId.toString();
+            if (receiverSocket &&
+                receiverSocket.rooms &&
+                typeof receiverSocket.rooms.has === "function") {
+                isReceiverInChatRoom = receiverSocket.rooms.has(targetRoom);
+            }
+        }
+        catch (socketError) {
+            console.error("Socket room validation failed, falling back to false:", socketError);
+            isReceiverInChatRoom = false;
         }
     }
     let messageData = {
@@ -196,7 +206,7 @@ export const getMessagesByChat = TryCatch(async (req, res) => {
         });
         return;
     }
-    const isUserInChat = chat.users.some((userId) => userId.toString() === userId.toString());
+    const isUserInChat = chat.users.some((id) => id.toString() === userId.toString());
     if (!isUserInChat) {
         res.status(403).json({
             message: "you are not participant in this chat",

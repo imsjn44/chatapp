@@ -18,6 +18,9 @@ redisClient
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
 app.use("/api/v1", UserRoutes);
 const port = process.env.PORT;
 app.listen(port, () => {

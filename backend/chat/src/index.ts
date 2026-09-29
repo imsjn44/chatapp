@@ -9,19 +9,9 @@ import http from "http";
 import { Server } from "socket.io";
 
 const app = express();
-const server = http.createServer(app);
+app.use(express.json());
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-
-connectDB().catch((err) => {
-  console.error("Database connection failed:", err);
-});
-
+// ✅ CORS middleware FIRST
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -31,13 +21,26 @@ app.use(
   }),
 );
 
-app.use(express.json());
-
+// ✅ Health check endpoint (before routes)
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "healthy" });
 });
 
 app.use("/api/v1", chatRoutes);
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+// ✅ Non-blocking database connection
+connectDB().catch((err) => {
+  console.error("Database connection failed:", err);
+});
 
 const userSocketMap: Record<string, string> = {};
 
@@ -101,6 +104,7 @@ io.on("connection", (socket) => {
   });
 });
 
+// ✅ Server listen LAST
 const port = Number(process.env.PORT) || 5002;
 
 server.listen(port, "0.0.0.0", () => {

@@ -1,7 +1,8 @@
+```yaml
 services:
 
   user:
-    image: ${ECR_REGISTRY}/chatapp/user:${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/chatapp/user:latest
     build:
       context: ./backend/user
       dockerfile: Dockerfile
@@ -16,9 +17,8 @@ services:
       - "5000:5000"
     restart: unless-stopped
 
-
   chat:
-    image: ${ECR_REGISTRY}/chatapp/chat:${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/chatapp/chat:latest
     build:
       context: ./backend/chat
       dockerfile: Dockerfile
@@ -36,9 +36,8 @@ services:
       - "5002:5002"
     restart: unless-stopped
 
-
   mail:
-    image: ${ECR_REGISTRY}/chatapp/mail:${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/chatapp/mail:latest
     build:
       context: ./backend/mail
       dockerfile: Dockerfile
@@ -51,9 +50,8 @@ services:
       - "5001:5001"
     restart: unless-stopped
 
-
   frontend:
-    image: ${ECR_REGISTRY}/chatapp/frontend:${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/chatapp/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -71,3 +69,4 @@ services:
       - chat
       - mail
       - user
+```

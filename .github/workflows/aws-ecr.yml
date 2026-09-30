@@ -1,10 +1,10 @@
+
 name: Build and Push Docker Images
 
 on:
   push:
     branches:
       - deploy/ecs-alb
-
 
 permissions:
   id-token: write
@@ -13,6 +13,12 @@ permissions:
 env:
   AWS_REGION: us-east-1
   ECR_REGISTRY: 830278489152.dkr.ecr.us-east-1.amazonaws.com
+  IMAGE_TAG: ${{ github.sha }}
+
+  NEXT_PUBLIC_USER_SERVICE: ${{ secrets.NEXT_PUBLIC_USER_SERVICE }}
+  NEXT_PUBLIC_CHAT_SERVICE: ${{ secrets.NEXT_PUBLIC_CHAT_SERVICE }}
+  FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+  USER_SERVICE: ${{ secrets.USER_SERVICE }}
 
 jobs:
   build-and-push:
@@ -31,45 +37,9 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push frontend
-        run: |
-          docker build \
-          --build-arg NEXT_PUBLIC_USER_SERVICE="${{ secrets.NEXT_PUBLIC_USER_SERVICE }}" \
-          --build-arg NEXT_PUBLIC_CHAT_SERVICE="${{ secrets.NEXT_PUBLIC_CHAT_SERVICE }}" \
-          --build-arg FRONtEND_URL="${{ secrets.FRONTEND_URL }}" \
-            -t $ECR_REGISTRY/chatapp/frontend:${GITHUB_SHA} \
-            -t $ECR_REGISTRY/chatapp/frontend:latest \
-            ./frontend
+      - name: Build images with Docker Compose
+        run: docker compose build
 
-          docker push $ECR_REGISTRY/chatapp/frontend:${GITHUB_SHA}
-          docker push $ECR_REGISTRY/chatapp/frontend:latest
-
-      - name: Build and push user service
-        run: |
-          docker build \
-            -t $ECR_REGISTRY/chatapp/user:${GITHUB_SHA} \
-            -t $ECR_REGISTRY/chatapp/user:latest \
-            ./backend/user
-
-          docker push $ECR_REGISTRY/chatapp/user:${GITHUB_SHA}
-          docker push $ECR_REGISTRY/chatapp/user:latest
-
-      - name: Build and push chat service
-        run: |
-          docker build \
-            -t $ECR_REGISTRY/chatapp/chat:${GITHUB_SHA} \
-            -t $ECR_REGISTRY/chatapp/chat:latest \
-            ./backend/chat
-
-          docker push $ECR_REGISTRY/chatapp/chat:${GITHUB_SHA}
-          docker push $ECR_REGISTRY/chatapp/chat:latest
-
-      - name: Build and push mail service
-        run: |
-          docker build \
-            -t $ECR_REGISTRY/chatapp/mail:${GITHUB_SHA} \
-            -t $ECR_REGISTRY/chatapp/mail:latest \
-            ./backend/mail
-
-          docker push $ECR_REGISTRY/chatapp/mail:${GITHUB_SHA}
-          docker push $ECR_REGISTRY/chatapp/mail:latest
+      - name: Push images to Amazon ECR
+        run: docker compose push
+```

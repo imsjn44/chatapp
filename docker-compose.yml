@@ -3,7 +3,7 @@ services:
   user:
     build:
       context: ./backend/user
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: user-service
     environment:
       PORT: 5000
@@ -18,7 +18,7 @@ services:
   chat:
     build:
       context: ./backend/chat
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: chat-service
     environment:
       PORT: 5002
@@ -48,7 +48,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_USER_SERVICE: ${NEXT_PUBLIC_USER_SERVICE}
         NEXT_PUBLIC_CHAT_SERVICE: ${NEXT_PUBLIC_CHAT_SERVICE}

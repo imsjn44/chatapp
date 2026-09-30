@@ -34,6 +34,9 @@ jobs:
       - name: Build and push frontend
         run: |
           docker build \
+          --build-arg NEXT_PUBLIC_USER_SERVICE="${{ secrets.NEXT_PUBLIC_USER_SERVICE }}" \
+          --build-arg NEXT_PUBLIC_CHAT_SERVICE="${{ secrets.NEXT_PUBLIC_CHAT_SERVICE }}" \
+          --build-arg FRONtEND_URL="${{ secrets.FRONTEND_URL }}" \
             -t $ECR_REGISTRY/chatapp/frontend:${GITHUB_SHA} \
             -t $ECR_REGISTRY/chatapp/frontend:latest \
             ./frontend

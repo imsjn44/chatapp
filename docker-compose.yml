@@ -1,13 +1,14 @@
 services:
 
   user:
+    image: ${ECR_REGISTRY}/chatapp/user:${IMAGE_TAG}
     build:
       context: ./backend/user
       dockerfile: Dockerfile
     container_name: user-service
     environment:
       PORT: 5000
-      MONGO_URL: ${MONGO_URL}
+      MONGO_URI: ${MONGO_URI}
       JWT_SECRET: ${JWT_SECRET}
       REDIS_URL: ${REDIS_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
@@ -15,7 +16,9 @@ services:
       - "5000:5000"
     restart: unless-stopped
 
+
   chat:
+    image: ${ECR_REGISTRY}/chatapp/chat:${IMAGE_TAG}
     build:
       context: ./backend/chat
       dockerfile: Dockerfile
@@ -29,12 +32,13 @@ services:
       CLOUD_API_SECRET: ${CLOUD_API_SECRET}
       FRONTEND_URL: ${FRONTEND_URL}
       USER_SERVICE: ${USER_SERVICE}
-      
     ports:
       - "5002:5002"
     restart: unless-stopped
 
+
   mail:
+    image: ${ECR_REGISTRY}/chatapp/mail:${IMAGE_TAG}
     build:
       context: ./backend/mail
       dockerfile: Dockerfile
@@ -47,7 +51,9 @@ services:
       - "5001:5001"
     restart: unless-stopped
 
+
   frontend:
+    image: ${ECR_REGISTRY}/chatapp/frontend:${IMAGE_TAG}
     build:
       context: ./frontend
       dockerfile: Dockerfile

@@ -25,7 +25,8 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1", UserRoutes);
-const port = process.env.PORT;
-app.listen(port, () => {
+const port = Number(process.env.PORT);
+
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
 });

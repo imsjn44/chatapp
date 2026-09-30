@@ -1,4 +1,3 @@
-```yaml
 services:
 
   user:
@@ -69,4 +68,3 @@ services:
       - chat
       - mail
       - user
-```

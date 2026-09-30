@@ -39,8 +39,22 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Verify Docker Compose configuration
+        run: |
+          docker compose config
+
+      - name: Show ECR image names
+        run: |
+          docker compose config --images
+
       - name: Build images with Docker Compose
-        run: docker compose build
+        run: |
+          docker compose build
+
+      - name: Show built Docker images
+        run: |
+          docker images
 
       - name: Push images to Amazon ECR
-        run: docker compose push
+        run: |
+          docker compose push

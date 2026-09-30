@@ -1,4 +1,3 @@
-
 name: Build and Push Docker Images
 
 on:
@@ -15,8 +14,11 @@ env:
   ECR_REGISTRY: 830278489152.dkr.ecr.us-east-1.amazonaws.com
   IMAGE_TAG: ${{ github.sha }}
 
+  # Next.js build-time variables
   NEXT_PUBLIC_USER_SERVICE: ${{ secrets.NEXT_PUBLIC_USER_SERVICE }}
   NEXT_PUBLIC_CHAT_SERVICE: ${{ secrets.NEXT_PUBLIC_CHAT_SERVICE }}
+
+  # Service URLs
   FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
   USER_SERVICE: ${{ secrets.USER_SERVICE }}
 
@@ -41,5 +43,4 @@ jobs:
         run: docker compose build
 
       - name: Push images to Amazon ECR
-        run: docker compose push
-```
+        run: docker compose push`
